@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>快处宝 - 404</title>
+    <title>快处宝-自主查勘理赔
+    </title>
     <!-- SEO Meta Tags-->
     <meta name="description" content="Unishop - Universal E-Commerce Template">
     <meta name="keywords"
@@ -15,37 +16,61 @@
     <link rel="stylesheet" media="screen" href="{% get_static_prefix %}css/vendor.min.css">
     <!-- Main Template Styles-->
     <link id="mainStyles" rel="stylesheet" media="screen" href="{% get_static_prefix %}css/styles.min.css">
+    <!-- Fontawesome Icon-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Modernizr-->
     <script src="{% get_static_prefix %}js/modernizr.min.js"></script>
+    <style>
+        .dropzone-area {
+            width: 100%;
+            height: 100px;
+            position: relative;
+            border: 2px dashed #CBCBCB;
+            border-radius: 22px;
+        }
+
+        .dropzone-area:hover {
+            border: 2px dashed #0da9ef;
+        }
+
+        .dropzone-area input {
+            position: absolute;
+            cursor: pointer;
+            top: 0px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .dropzone-text {
+            position: absolute;
+            top: 50%;
+            text-align: center;
+            transform: translate(0, -50%);
+            width: 100%;
+        }
+
+        .dropzone-text span {
+            display: block;
+            font-family: Arial, Helvetica;
+            line-height: 1.9;
+        }
+    </style>
 </head>
 <!-- Body-->
 <body>
 <div class="offcanvas-wrapper">
-    <!-- Page Title-->
-    <div class="page-title pt-2 pb-2 mb-3">
+    {% block content %}{% endblock %}
+    <!-- Site Footer-->
+    <footer class="site-footer mt-5 pt-2">
         <div class="container">
-            <div class="column">
-                <h1>错误</h1>
-            </div>
-        </div>
-    </div>
-    <!-- Page Content-->
-    <div class="container padding-bottom-3x mb-1"><img class="d-block m-auto" src="{% get_static_prefix %}img/404_art.jpg" style="width: 100%; max-width: 550px;" alt="404">
-        <div class="padding-top-1x mt-2 text-center">
-            <h3>404 Not Found</h3>
-            <p>
-                <a class="btn btn-primary" href="/claim">返回主页</a><br>
-            </p>
-        </div>
-    </div>
+            <!-- Copyright-->
+            <p class="footer-copyright">© 2017 快处宝 保留所有权利.</p></div>
+    </footer>
 </div>
-<!-- Site Footer-->
-<footer class="site-footer mt-5 pt-2">
-    <div class="container">
-        <!-- Copyright-->
-        <p class="footer-copyright">© 2017 快处宝 保留所有权利.</p></div>
-</footer>
-<!-- Back To Top Button--><a class="scroll-to-top-btn" href="#"><i class="icon-arrow-up"></i></a>
 <!-- Backdrop-->
 <div class="site-backdrop"></div>
 <!-- JavaScript (jQuery) libraries, plugins and custom scripts-->

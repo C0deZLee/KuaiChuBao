@@ -16,9 +16,19 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from django.shortcuts import render
+
 from KuaiChuBao.modules.claim import urls as claim_urls
+from KuaiChuBao.modules.insure import urls as insure_urls
+
+
+def Error404(request):
+	return render(request, '404.html')
+
 
 urlpatterns = [
-	url(r'^admin/', include(admin.site.urls)),
 	url(r'^claim/', include(claim_urls)),
+	url(r'^insure/', include(insure_urls)),
+	url(r'^admin/', include(admin.site.urls)),
+	url(r'^404/', Error404),
 ]

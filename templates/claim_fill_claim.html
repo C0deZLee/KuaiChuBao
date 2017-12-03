@@ -1,0 +1,58 @@
+{% extends 'claim_base.html' %}
+{% block content %}
+    <!-- Page Title-->
+    <div class="page-title pt-2 pb-2 mb-3">
+        <div class="container">
+            <div class="column">
+                <h1>快处宝快速理赔</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content-->
+    <div class="container padding-bottom-3x mb-1">
+        <div class="row">
+            <div class="col-md-12">
+                <p>填写出险信息</p>
+
+                <form class="row" method="post" action="/claim/fill">
+                    {% csrf_token %}
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="name">出险类型</label>
+                            <input class="form-control" type="text" id="accident_type" name="accident_type" disabled=""
+                                   value="{% if accident_type == 'zhuiwei' %}追尾事故{% elif accident_type == 'danche' %}单车事故{% elif accident_type == 'guaca' %}刮擦事故{% endif %}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="national_id">承保公司</label>
+                            <input class="form-control" type="text" id="company" name="company" disabled="" value="{{ company }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="phone">车牌号</label>
+                            <input class="form-control" type="text" id="car_plate" name="car_plate" required="" value="{{ car_plate }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="phone">出险时间</label>
+                            <input class="form-control" type="text" id="time" name="time" required="" placeholder="请严格按照格式填写,例：2017/11/30 19:00" value="{{ time }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="phone">出险地点</label>
+                            <input class="form-control" type="text" id="location" name="location" required="" placeholder="请尽量详细填写" value="{{ location }}">
+                        </div>
+                    </div>
+                    <div class="col-12 text-center text-sm-right">
+                        <a class="btn btn-outline-primary btn-sm" href="/claim/company">返回</a>
+                        <button class="btn btn-primary btn-sm" type="submit">下一步</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

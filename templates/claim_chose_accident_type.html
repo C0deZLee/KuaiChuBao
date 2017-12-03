@@ -1,0 +1,52 @@
+{% extends 'claim_base.html' %}
+{% block content %}
+    <!-- Page Title-->
+    <div class="page-title pt-2 pb-2 mb-3">
+        <div class="container">
+            <div class="column">
+                <h1>选择事故类型</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content-->
+    <div class="container padding-bottom-3x mb-1">
+        <!-- Products Grid-->
+        <div class="isotope-grid cols-4 mb-2">
+            <div class="gutter-sizer"></div>
+            <div class="grid-sizer"></div>
+            <!-- Product-->
+            <div class="grid-item">
+                <div class="product-card">
+                    <!--<a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>-->
+                    <h3 class="product-title"><a href="/claim/company?type=danche">单车事故</a></h3>
+                    <div class="product-buttons">
+                        <a class="btn btn-outline-primary btn-sm" href="/claim/company?accident_type=danche">选择
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product-->
+            <div class="grid-item">
+                <div class="product-card">
+                    <!--<a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>-->
+                    <h3 class="product-title"><a href="/claim/company?type=guaca">两车刮擦事故</a></h3>
+                    <div class="product-buttons">
+                        <a class="btn btn-outline-primary btn-sm" href="/claim/company?accident_type=guaca">选择
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product-->
+            <div class="grid-item">
+                <div class="product-card">
+                    <!--<a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>-->
+                    <h3 class="product-title"><a href="/claim/company?type=zhuiwei">两车追尾事故</a></h3>
+                    <div class="product-buttons">
+                        <a class="btn btn-outline-primary btn-sm" href="/claim/company?accident_type=zhuiwei">选择
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

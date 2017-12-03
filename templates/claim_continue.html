@@ -1,0 +1,29 @@
+{% extends 'claim_base.html' %}
+{% block content %}
+    <!-- Page Title-->
+    <div class="page-title pt-2 pb-2 mb-3">
+        <div class="container">
+            <div class="column">
+                <h1>快处宝快速理赔</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content-->
+    <div class="container padding-bottom-3x mb-1">
+               <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12 margin-bottom-2x">
+                    <p>请选择您想继续的理赔</p>
+                    <nav class="list-group">
+                        {% for claim in claims %}
+                            <a class="list-group-item" href="/claim/user?company={{ company }}">{{ claim.date }}</a>
+                        {% endfor %}
+                    </nav>
+                </div>
+            </div>
+            <div class="col-12 text-center text-sm-right">
+                <a class="btn btn-outline-primary btn-sm" href="/claim/type">返回</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

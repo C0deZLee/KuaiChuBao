@@ -1,0 +1,44 @@
+{% extends 'claim_base.html' %}
+{% block content %}
+    <!-- Page Title-->
+    <div class="page-title pt-2 pb-2 mb-3">
+        <div class="container">
+            <div class="column">
+                <h1>登录</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content-->
+    <div class="container padding-bottom-3x mb-1">
+        <div class="row">
+            <div class="col-md-12">
+                <p>请登记您的身份信息以便开始新的理赔或者继续您之前的理赔</p>
+
+                <form class="row" method="post" action="/claim/user">
+                    {% csrf_token %}
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="name">真实姓名</label>
+                            <input class="form-control" type="text" id="name" name="name" required="">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="national_id">身份证号码</label>
+                            <input class="form-control" type="text" id="national_id" name="national_id" required="">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="phone">电话</label>
+                            <input class="form-control" type="text" id="phone" name="phone" required="">
+                        </div>
+                    </div>
+                    <div class="col-12 text-center text-sm-right">
+                        <button class="btn btn-primary btn-sm" type="submit">登录</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

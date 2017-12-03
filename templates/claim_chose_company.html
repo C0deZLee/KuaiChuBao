@@ -1,0 +1,38 @@
+{% extends 'claim_base.html' %}
+{% block content %}
+    <!-- Page Title-->
+    <div class="page-title pt-2 pb-2 mb-3">
+        <div class="container">
+            <div class="column">
+                <h1>选择保险公司</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content-->
+    <div class="container padding-bottom-3x mb-1">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12 margin-bottom-2x">
+                    <p>您选择的事故类型为<b>
+                        {% if accident_type == 'zhuiwei' %}
+                            追尾事故
+                        {% elif accident_type == 'danche' %}
+                            单车事故
+                        {% elif accident_type == 'guaca' %}
+                            刮擦事故
+                        {% endif %}
+                    </b></p>
+                    <p>请选择您<span class="text-danger">投保</span>的保险公司</p>
+                    <nav class="list-group">
+                        {% for company in companies %}
+                            <a class="list-group-item" href="/claim/fill?company={{ company }}">{{ company }}</a>
+                        {% endfor %}
+                    </nav>
+                </div>
+            </div>
+            <div class="col-12 text-center text-sm-right">
+                <a class="btn btn-outline-primary btn-sm" href="/claim/type">返回</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
