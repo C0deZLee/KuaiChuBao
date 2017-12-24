@@ -17,7 +17,7 @@
                 <img src="{% get_static_prefix %}{{ img_url }}">
             </div>
         </div>
-        <form class="row text-center" method="post" action="/claim/upload">
+        <form class="row text-center" enctype="multipart/form-data" method="post" action="/claim/upload">
             {% csrf_token %}
             <div class="col-sm-12 mt-4">
                 <div class="dropzone-area">
@@ -27,6 +27,7 @@
                     </div>
                     <input class="custom-file-input" type="file" id="claim_img" name="claim_img">
                 </div>
+                <p class="text-danger text-center">{{ error_msg }}</p>
             </div>
             <div class="col-sm-12 text-center text-sm-right mt-4">
                 <a class="btn btn-outline-primary btn-sm" href="/claim/upload?back=back">返回</a>

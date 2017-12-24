@@ -4,26 +4,6 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-class UserInfo(models.Model):
-	name = models.CharField(max_length=200, null=True, blank=True)
-	phone = models.CharField(max_length=200, null=True, blank=True)
-	national_id_number = models.CharField(max_length=200, unique=True)
-	driver_license_number = models.CharField(max_length=200, null=True, blank=True)
-
-	national_id_top = models.ImageField(upload_to='users/national_id', null=True, blank=True)
-	national_id_down = models.ImageField(upload_to='users/national_id', null=True, blank=True)
-	driver_license_top = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
-	driver_license_down = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
-	road_worthiness_certificate_top = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True)
-	road_worthiness_certificate_down = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True)
-
-	# relations
-	# 1. claims
-
-	def __unicode__(self):
-		return self.name
-
-
 class InsuranceCompany(models.Model):
 	name = models.CharField(max_length=200)
 	phone = models.CharField(max_length=200)
@@ -54,7 +34,7 @@ class Claim(models.Model):
 	)
 	company = models.ForeignKey(InsuranceCompany, related_name='claims')
 	accident_type = models.CharField(choices=TYPE_CHOICES, max_length=20)
-	user = models.ForeignKey(UserInfo, related_name='claims')
+	user = models.ForeignKey('user.User', related_name='claims')
 
 	car_plate = models.CharField(max_length=200)
 	time = models.CharField(max_length=200)

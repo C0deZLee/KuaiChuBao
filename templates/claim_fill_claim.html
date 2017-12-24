@@ -4,7 +4,7 @@
     <div class="page-title pt-2 pb-2 mb-3">
         <div class="container">
             <div class="column">
-                <h1>快处宝快速理赔</h1>
+                <h1>填写出险信息</h1>
             </div>
         </div>
     </div>
@@ -12,7 +12,6 @@
     <div class="container padding-bottom-3x mb-1">
         <div class="row">
             <div class="col-md-12">
-                <p>填写出险信息</p>
 
                 <form class="row" method="post" action="/claim/fill">
                     {% csrf_token %}
@@ -37,8 +36,8 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="phone">出险时间</label>
-                            <input class="form-control" type="text" id="time" name="time" required="" placeholder="请严格按照格式填写,例：2017/11/30 19:00" value="{{ time }}">
+                            <label for="phone">出险时间 例：2017/12/21 17:00</label>
+                            <input class="form-control" type="text" id="time" name="time" required="" placeholder="xxxx/xx/xx xx:xx" value="{{ time }}">
                         </div>
                     </div>
                     <div class="col-sm-12">

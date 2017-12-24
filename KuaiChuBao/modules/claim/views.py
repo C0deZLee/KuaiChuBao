@@ -5,7 +5,9 @@ from django.shortcuts import render
 
 from django.http import HttpResponseRedirect
 
-from .models import UserInfo, InsuranceCompany, Claim, Image
+from .models import InsuranceCompany, Claim, Image
+
+from ..user.models import User
 
 
 def claim_user(request):
@@ -13,7 +15,7 @@ def claim_user(request):
 		user_id = request.session.get('user_id')
 		# 用户已经登陆
 		if user_id:
-			user_info = UserInfo.objects.get(id=request.session['user_id'])
+			user_info = User.objects.get(id=request.session['user_id'])
 			if user_info.claims.all():
 				return HttpResponseRedirect('/claim/new_or_resume')
 			else:
@@ -26,7 +28,7 @@ def claim_user(request):
 				request.POST.get('national_id') and \
 				request.POST.get('phone'):
 
-			user_info, create = UserInfo.objects.get_or_create(
+			user_info, create = User.objects.get_or_create(
 				national_id_number=request.POST.get('national_id'),
 				name=request.POST.get('name'),
 				phone=request.POST.get('phone')
@@ -52,7 +54,7 @@ def claim_resume(request):
 	if not request.session.get('user_id'):
 		return HttpResponseRedirect('/claim')
 
-	user = UserInfo.objects.get(id=request.session.get('user_id'))
+	user = User.objects.get(id=request.session.get('user_id'))
 
 	return render(request, 'claim_resume.html', {'claims': user.claims.all()})
 
@@ -241,26 +243,36 @@ def claim_img_upload(request):
 				                                                 'step_name': step_name,
 				                                                 'img_url'  : img_url})
 
+		# Create context
 		step_name = type_step[accident_type][img_upload_step - 1]
 		img_url = 'img/' + accident_type + '/' + str(img_upload_step - 1) + '.png'
-		return render(request, 'claim_img_upload.html', {'type'     : accident_type,
-		                                                 'step'     : img_upload_step,
-		                                                 'step_name': step_name,
-		                                                 'img_url'  : img_url})
+		ctx = {'type'     : accident_type,
+		       'step'     : img_upload_step,
+		       'step_name': step_name,
+		       'img_url'  : img_url}
+
+		if request.GET.get('empty'):
+			ctx['error_msg'] = '图片不得为空'
+
+		return render(request, 'claim_img_upload.html', ctx)
+
 	if request.method == 'POST':
-		if request.POST.get('claim_img'):
+		# 如果到了最后一步，跳转到结束页面
+		if accident_type == 'danche' and img_upload_step == 14:
+			return HttpResponseRedirect('/claim/finish')
+		elif img_upload_step == 15:
+			return HttpResponseRedirect('/claim/finish')
+
+		if request.FILES.get('claim_img'):
 			image, created = Image.objects.get_or_create(claim_id=claim_id, step=request.session['img_upload_step'])
 			image.image = request.FILES.get('claim_img')
 			image.save()
 			img_upload_step += 1
 			request.session['img_upload_step'] = img_upload_step
 
-		if accident_type == 'danche' and img_upload_step == 15:
-			return HttpResponseRedirect('/claim/finish')
-		elif img_upload_step == 16:
-			return HttpResponseRedirect('/claim/finish')
-
-		return HttpResponseRedirect('/claim/upload')
+			return HttpResponseRedirect('/claim/upload')
+		else:
+			return HttpResponseRedirect('/claim/upload?empty=true')
 
 
 def claim_finish(request):
