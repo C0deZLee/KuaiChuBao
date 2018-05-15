@@ -12,9 +12,9 @@
     <div class="container padding-bottom-3x mb-1">
         <div class="row">
             <div class="col-md-12">
-
                 <form class="row" method="post" action="/claim/fill">
                     {% csrf_token %}
+
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="name">出险类型</label>
@@ -37,7 +37,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="phone">出险时间 例：2017/12/21 17:00</label>
-                            <input class="form-control" type="text" id="time" name="time" required="" placeholder="xxxx/xx/xx xx:xx" value="{{ time }}">
+                            <input class="form-control" type="datetime" id="time" name="time" required="" placeholder="xxxx/xx/xx xx:xx" value="{{ time }}">
                         </div>
                     </div>
                     <div class="col-sm-12">

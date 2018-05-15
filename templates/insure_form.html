@@ -1,0 +1,128 @@
+{% extends 'insure_base.html' %}
+{% block content %}
+    <!-- Page Title-->
+    <div class="page-title pt-2 pb-2 mb-3">
+        <div class="container">
+            <div class="column">
+                <h1>保险信息采集</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content-->
+    <div class="container padding-bottom-3x mb-1">
+        <form method="post" action="/insure/form">
+            {% csrf_token %}
+            <p>您选择的保险公司为<b>{{ company }}</b></p>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p><span class="text-bold">选择保额</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="name">机动车第三者责任保险</label>
+                        <select class="form-control" id="select-input1">
+                            <option value="">--请选择--</option>
+                            <option>10万元</option>
+                            <option>20万元</option>
+                            <option>30万元</option>
+                            <option>50万元</option>
+                            <option>100万元</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="national_id">机动车车上人员责任保险</label>
+                        <select class="form-control" id="select-input2">
+                            <option value="">--请选择--</option>
+                            <option>1万元</option>
+                            <option>2万元</option>
+                            <option>3万元</option>
+                            <option>5万元</option>
+                            <option>10万元</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p><span class="text-bold">选择险种</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-12 form-group">
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox" checked><span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">机动车事故责任强制险</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">车船使用税</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">机动车损失保险</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">机动车全车抢盗保险</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">玻璃单独破碎保险</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">自然损失险</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">新加设备损失险</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">车身划痕损失险</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">发动机涉水损失险</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">修理期间费用补偿险</span>
+                        </label>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">车上货物损失险</span>
+                        </label>
+                         <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">精神损害抚恤金险</span>
+                        </label>
+                         <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">不计免赔率险</span>
+                        </label>
+                         <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">机动车损失无法找到第三方特约险</span>
+                        </label>
+                         <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox"><span class="custom-control-indicator"></span><span
+                                class="custom-control-description">指定修理厂险</span>
+                        </label>
+                    </div>
+
+                    <div class="col-12 text-center text-sm-right">
+                        <a class="btn btn-outline-primary btn-sm" href="/insure/company">返回</a>
+                        <button class="btn btn-primary btn-sm" type="submit">下一步</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

@@ -5,7 +5,7 @@ from django.db import models
 
 
 class InsuranceCompany(models.Model):
-	name = models.CharField(max_length=200)
+	name = models.CharField(unique=True, max_length=200)
 	phone = models.CharField(max_length=200)
 	url = models.CharField(max_length=200, null=True, blank=True)
 	logo = models.ImageField(upload_to='companies_logo/', null=True, blank=True)

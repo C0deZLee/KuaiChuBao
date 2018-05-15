@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'insure_base.html' %}
+{% block content %}
+    <!-- Page Title-->
+    <div class="page-title pt-2 pb-2 mb-3">
+        <div class="container">
+            <div class="column">
+                <h1>证件上传</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content-->
+    <div class="container padding-bottom-3x mb-1">
+        <div class="row">
+            <div class="col-sm-12">
+                <p><span class="text-bold">步骤 {{ step }}/8</span>: {{ step_name }}</p>
+            </div>
+        </div>
+        <form class="row text-center" enctype="multipart/form-data" method="post" action="/insure/upload">
+            {% csrf_token %}
+            <div class="col-sm-12 mt-4">
+                <div class="dropzone-area">
+                    <div class="dropzone-text" id="img_msg">
+                        <i class="fa fa-camera"> </i>
+                        <span>点此拍照</span>
+                    </div>
+                    <input class="custom-file-input" type="file" id="insure_img" name="insure_img">
+                </div>
+                <p class="text-danger text-center">{{ error_msg }}</p>
+            </div>
+            <div class="col-sm-12 text-center text-sm-right mt-4">
+                <a class="btn btn-outline-primary btn-sm" href="/insure/upload?back=back">返回</a>
+                <button class="btn btn-primary btn-sm" type="submit">下一步</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#insure_img').on('change', function () {
+                $('#img_msg').html('上传成功')
+            });
+        });
 
-</body>
-</html>
+    </script>
+{% endblock %}

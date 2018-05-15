@@ -1,0 +1,26 @@
+{% extends 'insure_base.html' %}
+{% block content %}
+    <!-- Page Title-->
+    <div class="page-title pt-2 pb-2 mb-3">
+        <div class="container">
+            <div class="column">
+                <h1>选择保险公司</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content-->
+    <div class="container padding-bottom-3x mb-1">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12 margin-bottom-2x">
+                    <p>选择您想要投保的公司</p>
+                    <nav class="list-group">
+                        {% for company in companies %}
+                            <a class="list-group-item" href="/insure/form?company={{ company }}">{{ company }}</a>
+                        {% endfor %}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -28,8 +28,10 @@ def claim_user(request):
 				request.POST.get('national_id') and \
 				request.POST.get('phone'):
 
-			user_info = User.objects.filter(national_id_number=request.POST.get('national_id'))[0]
-			if not user_info:
+			user_info = User.objects.filter(national_id_number=request.POST.get('national_id'))
+			if user_info:
+				user_info = user_info[0]
+			else:
 				user_info, create = User.objects.get_or_create(
 					national_id_number=request.POST.get('national_id'),
 					name=request.POST.get('name'),
@@ -238,6 +240,7 @@ def claim_img_upload(request):
 				img_upload_step -= 1
 				request.session['img_upload_step'] = img_upload_step
 				step_name = type_step[accident_type][img_upload_step - 1]
+				# Demo img url
 				img_url = 'img/' + accident_type + '/' + str(img_upload_step - 1) + '.png'
 
 				return render(request, 'claim_img_upload.html', {'type'     : accident_type,
@@ -247,6 +250,7 @@ def claim_img_upload(request):
 
 		# Create context
 		step_name = type_step[accident_type][img_upload_step - 1]
+		# Demo img url
 		img_url = 'img/' + accident_type + '/' + str(img_upload_step - 1) + '.png'
 		ctx = {'type'     : accident_type,
 		       'step'     : img_upload_step,
