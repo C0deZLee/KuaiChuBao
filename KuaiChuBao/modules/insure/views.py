@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import urllib
+
 from __future__ import unicode_literals
 
 from django.shortcuts import render
@@ -89,9 +91,10 @@ def insure_form(request):
 
 	if request.method == 'GET':
 		# 在url中获取type存入session
-		request.session['company'] = request.GET.get('company') if not request.session['company'] else request.session['company']
+		if not request.session.get('company') or request.GET.get('company'):
+			request.session['company'] = request.GET.get('company')
 
-		company = InsuranceCompany.objects.get(name=request.session['company'])
+		company = InsuranceCompany.objects.get(name=urllib.unquote(request.session['company']))
 
 		# Check if user already has a insure and resume from there
 		if not request.session.get('insureinfo_id'):
