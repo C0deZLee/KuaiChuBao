@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import urllib
-
 from __future__ import unicode_literals
+
+import urllib
 
 from django.shortcuts import render
 
