@@ -28,11 +28,13 @@ def claim_user(request):
 				request.POST.get('national_id') and \
 				request.POST.get('phone'):
 
-			user_info, create = User.objects.get_or_create(
-				national_id_number=request.POST.get('national_id'),
-				name=request.POST.get('name'),
-				phone=request.POST.get('phone')
-			)
+			user_info = User.objects.filter(national_id_number=request.POST.get('national_id'))[0]
+			if not user_info:
+				user_info, create = User.objects.get_or_create(
+					national_id_number=request.POST.get('national_id'),
+					name=request.POST.get('name'),
+					phone=request.POST.get('phone')
+				)
 
 			request.session['user_id'] = user_info.id
 			if user_info.claims.all():

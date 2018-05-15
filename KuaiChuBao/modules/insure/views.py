@@ -10,24 +10,24 @@ from ..user.models import User
 
 def insure_user(request):
 	if request.method == 'GET':
-		user_id = request.session.get('insure_user_id')
+		user_id = request.session.get('user_id')
 		# 用户已经登陆
 		if user_id:
-			user_info = User.objects.get(id=request.session['insure_user_id'])
-			if user_info.insures.all().first():
-				insure = user_info.insures.all().first()
-				if insure.step < 11:
-					return HttpResponseRedirect('/insure/upload?step=' + str(insure.step))
-				elif insure.step == 12:
+			user_info = User.objects.get(id=request.session['user_id'])
+			if user_info.insures.first():
+				insure = user_info.insures.first()
+				if insure.step == 1:
+					return HttpResponseRedirect('/insure/')
+				elif insure.step == 2:
 					return HttpResponseRedirect('/insure/detail')
-				elif insure.step == 13:
+				elif insure.step == 3:
 					return HttpResponseRedirect('/insure/company')
-				else:
+				elif insure.step == 4:
 					return HttpResponseRedirect('/insure/complete')
 
 			else:
 				return HttpResponseRedirect('/insure/upload')
-
+		# 用户没有登陆
 		return render(request, 'insure_user_login.html')
 
 	elif request.method == 'POST':
@@ -45,7 +45,7 @@ def insure_user(request):
 			if user_info.insures.all().first():
 				insure = user_info.insures.all().first()
 				if insure.step < 11:
-					return HttpResponseRedirect('/insure/upload?step=' + str(insure.step))
+					return HttpResponseRedirect('/insure/step1?step=' + str(insure.step))
 				elif insure.step == 12:
 					return HttpResponseRedirect('/insure/detail')
 				elif insure.step == 13:

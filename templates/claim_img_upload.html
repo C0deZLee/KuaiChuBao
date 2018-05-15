@@ -21,7 +21,7 @@
             {% csrf_token %}
             <div class="col-sm-12 mt-4">
                 <div class="dropzone-area">
-                    <div class="dropzone-text ">
+                    <div class="dropzone-text" id="img_msg">
                         <i class="fa fa-camera"> </i>
                         <span>点此拍照</span>
                     </div>
@@ -35,4 +35,12 @@
             </div>
         </form>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#claim_img').on('change', function () {
+                $('#img_msg').html('上传成功')
+            });
+        });
+
+    </script>
 {% endblock %}

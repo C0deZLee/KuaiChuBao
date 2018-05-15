@@ -18,6 +18,7 @@ class InsuranceCompanyForInsure(models.Model):
 
 
 class InsureInfo(models.Model):
+	# Step
 	step = models.IntegerField(default=1)
 
 	# Link
@@ -54,6 +55,8 @@ class InsureInfo(models.Model):
 	bujimianpeilvxian = models.BooleanField(default=False)
 	jidongchesunshibaoxianwufazhaodaodisanfangteyuexian = models.BooleanField(default=False)
 	zhidingxiulichangxian = models.BooleanField(default=False)
+
+
 
 	def __unicode__(self):
 		return self.user.name + ' 投保信息'
