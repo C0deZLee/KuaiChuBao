@@ -11,39 +11,46 @@ class InsureInfo(models.Model):
 	step = models.IntegerField(default=1)
 
 	# Link
-	user = models.ForeignKey('user.User', related_name='insures', on_delete=models.PROTECT)
-	insure_company = models.ForeignKey(InsuranceCompany, on_delete=models.PROTECT)
+	user = models.ForeignKey('user.User', related_name='insures', on_delete=models.PROTECT, verbose_name='用户')
+	insure_company = models.ForeignKey(InsuranceCompany, on_delete=models.PROTECT, verbose_name='保险公司')
 
 	# Images
-	car_owner_national_id_top = models.ImageField(upload_to='users/national_id', null=True, blank=True)
-	car_owner_national_id_down = models.ImageField(upload_to='users/national_id', null=True, blank=True)
-	driver_license_top = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
-	driver_license_down = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
-	road_worthiness_certificate_top = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True)
-	road_worthiness_certificate_down = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True)
-	insured_national_id_top = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
-	insured_national_id_down = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
-	last_year_enforced_insurance = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
-	last_year_commercial_insurance = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
+	car_owner_national_id_top = models.ImageField(upload_to='users/national_id', null=True, blank=True, verbose_name='车主身份证（正面）')
+	car_owner_national_id_down = models.ImageField(upload_to='users/national_id', null=True, blank=True, verbose_name='车主身份证（反面）')
+	driver_license_top = models.ImageField(upload_to='users/driver_license', null=True, blank=True, verbose_name='行驶证正本')
+	driver_license_down = models.ImageField(upload_to='users/driver_license', null=True, blank=True, verbose_name='行驶证副本')
+	insured_national_id_top = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True, verbose_name='被保险人身份证（正面）')
+	insured_national_id_down = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True, verbose_name='被保险人身份证（反面）')
+	last_year_enforced_insurance = models.ImageField(upload_to='users/driver_license', null=True, blank=True, verbose_name='去年交强险保单')
+	last_year_commercial_insurance = models.ImageField(upload_to='users/driver_license', null=True, blank=True, verbose_name='去年商业险保单')
 
 	# Details
-	jidongchejiaotongshifuzerenqiangzhibaoxian = models.BooleanField(default=False)
-	chechuanshiyongshui = models.BooleanField(default=False)
-	jidongchesunshibaoxian = models.BooleanField(default=False)
-	jidongchedisanzerenbaoxian = models.BooleanField(default=False)
-	jidongchecheshangrenyuanzerenbaoxian = models.BooleanField(default=False)
-	jidongchequanchedaoqiangbaoxian = models.BooleanField(default=False)
-	bolidanduposuixian = models.BooleanField(default=False)
-	ziransunshixian = models.BooleanField(default=False)
-	xinzengshebensunshixian = models.BooleanField(default=False)
-	cheshenhuahenshunshixian = models.BooleanField(default=False)
-	fadongjisheshuisunshixian = models.BooleanField(default=False)
-	xiuliqijianfeiyongbuchangxian = models.BooleanField(default=False)
-	cheshanghuowuzerenxian = models.BooleanField(default=False)
-	jingshensunhaifuxujinzerenxian = models.BooleanField(default=False)
-	bujimianpeilvxian = models.BooleanField(default=False)
-	jidongchesunshibaoxianwufazhaodaodisanfangteyuexian = models.BooleanField(default=False)
-	zhidingxiulichangxian = models.BooleanField(default=False)
+	jidongchedisanzerenbaoxian = models.CharField(default=0, max_length=100, verbose_name='机动车第三者责任保险')
+	jidongchecheshangrenyuanzerenbaoxian = models.CharField(default=0, max_length=100, verbose_name='机动车车上人员责任保险')
+
+	jidongcheshiguzerenqiangzhibaoxian = models.BooleanField(default=False, verbose_name='机动车事故责任强制险')
+	chechuanshiyongshui = models.BooleanField(default=False, verbose_name='车船使用税')
+	jidongchesunshibaoxian = models.BooleanField(default=False, verbose_name='机动车损失保险')
+	jidongchequanchedaoqiangbaoxian = models.BooleanField(default=False, verbose_name='机动车全车抢盗保险')
+	bolidanduposuixian = models.BooleanField(default=False, verbose_name='玻璃单独破碎保险')
+	ziransunshixian = models.BooleanField(default=False, verbose_name='自然损失险')
+	xinzengshebensunshixian = models.BooleanField(default=False, verbose_name='新加设备损失险')
+
+	cheshenhuahenshunshixian = models.BooleanField(default=False, verbose_name='车身划痕损失险')
+	fadongjisheshuisunshixian = models.BooleanField(default=False, verbose_name='发动机涉水损失险')
+	xiuliqijianfeiyongbuchangxian = models.BooleanField(default=False, verbose_name='修理期间费用补偿险')
+	cheshanghuowuzerenxian = models.BooleanField(default=False, verbose_name='车上货物损失险')
+	jingshensunhaifuxujinzerenxian = models.BooleanField(default=False, verbose_name='精神损害抚恤金险')
+	bujimianpeilvxian = models.BooleanField(default=False, verbose_name='不计免赔率险')
+	jidongchesunshibaoxianwufazhaodaodisanfangteyuexian = models.BooleanField(default=False, verbose_name='机动车损失无法找到第三方特约险')
+	zhidingxiulichangxian = models.BooleanField(default=False, verbose_name='指定修理厂险')
+
+	# Time stamp
+	created = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
 	def __unicode__(self):
 		return self.user.name + ' 投保信息'
+
+	class Meta:
+		verbose_name = '投保信息'
+		verbose_name_plural = '投保信息'

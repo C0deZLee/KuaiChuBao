@@ -9,7 +9,7 @@
         </div>
     </div>
     <!-- Page Content-->
-    <div class="container padding-bottom-3x mb-1">
+    <div class="container padding-bottom-3x mb-3">
         <div class="row">
             <div class="col-md-12">
                 <p>请登记您的身份信息以便开始新的理赔或者继续您之前的理赔</p>
@@ -19,19 +19,25 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="name">真实姓名</label>
-                            <input class="form-control" type="text" id="name" name="name" required="">
+                            <input class="form-control" type="text" id="name" name="name" required="" value="{{ name }}">
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="national_id">身份证号码</label>
-                            <input class="form-control" type="text" id="national_id" name="national_id" required="">
+                            <input class="form-control" type="text" id="national_id" name="national_id" required="" value="{{ national_id }}">
+                            {% if error == 'national_id' %}
+                                <p class="text-danger">请输入正确的身份证号码</p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="phone">电话</label>
-                            <input class="form-control" type="text" id="phone" name="phone" required="">
+                            <input class="form-control" type="text" id="phone" name="phone" required="" value="{{ phone }}">
+                             {% if error == 'phone' %}
+                                <p class="text-danger">请输入正确的电话号码</p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-12 text-center text-sm-right">

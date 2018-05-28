@@ -10,6 +10,34 @@ from .models import InsuranceCompany, Claim, Image
 from ..user.models import User
 
 
+def check_national_id(str):
+	str_to_int = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5,
+	              '6': 6, '7': 7, '8': 8, '9': 9, 'X': 10}
+	check_dict = {0: '1', 1: '0', 2: 'X', 3: '9', 4: '8', 5: '7',
+	              6: '6', 7: '5', 8: '4', 9: '3', 10: '2'}
+	if len(str) != 18:
+		return False
+	check_num = 0
+	for index, num in enumerate(str):
+		if index == 17:
+			right_code = check_dict.get(check_num % 11)
+			if num == right_code:
+				return True
+			else:
+				return False
+		check_num += str_to_int.get(num) * (2 ** (17 - index) % 11)
+
+
+def check_phone(str):
+	if len(str) != 11:
+		return False
+	phone_prefix = ['130', '131', '132', '133', '134', '135', '136', '137', '138', '139', '150', '151', '152', '153', '156', '158', '159', '170', '183', '182', '185', '186', '188', '189']
+
+	if str.isdigit() and str[:3] in phone_prefix:
+		return True
+	return False
+
+
 def claim_user(request):
 	if request.method == 'GET':
 		user_id = request.session.get('user_id')
@@ -24,9 +52,25 @@ def claim_user(request):
 		return render(request, 'claim_user_login.html')
 
 	elif request.method == 'POST':
-		if request.POST.get('name') and \
-				request.POST.get('national_id') and \
-				request.POST.get('phone'):
+		if request.POST.get('name') and request.POST.get('national_id') and request.POST.get('phone'):
+			# Data Validation
+			if not check_national_id(request.POST.get('national_id')):
+				ctx = {
+					'name'       : request.POST.get('name'),
+					'national_id': request.POST.get('national_id'),
+					'phone'      : request.POST.get('phone'),
+					'error'      : 'national_id',
+				}
+				return render(request, 'claim_user_login.html', ctx)
+
+			if not check_phone(request.POST.get('phone')):
+				ctx = {
+					'name'       : request.POST.get('name'),
+					'national_id': request.POST.get('national_id'),
+					'phone'      : request.POST.get('phone'),
+					'error'      : 'phone',
+				}
+				return render(request, 'claim_user_login.html', ctx)
 
 			user_info = User.objects.filter(national_id_number=request.POST.get('national_id'))
 			if user_info:
@@ -64,6 +108,11 @@ def claim_resume(request):
 
 
 def claim_chose_accident_type(request):
+	if request.GET.get('new') and request.session.get('claim_id'):
+		# New Claim
+		del request.session['claim_id']
+		request.session.modified = True
+
 	# 重定向未登录用户
 	if not request.session.get('user_id'):
 		return HttpResponseRedirect('/claim')
@@ -122,9 +171,7 @@ def claim_fill_claim(request):
 		return render(request, 'claim_fill_claim.html', ctx)
 
 	elif request.method == 'POST':
-		if request.POST.get('car_plate') and \
-				request.POST.get('time') and \
-				request.POST.get('location'):
+		if request.POST.get('car_plate') and request.POST.get('time') and request.POST.get('location'):
 			company = InsuranceCompany.objects.get(name=request.session['company'])
 			if request.session.get('claim_id'):
 				claim = Claim.objects.get(id=request.session.get('claim_id'))
@@ -150,10 +197,12 @@ def claim_fill_claim(request):
 
 
 def claim_img_upload(request):
+	# Session 数据
 	user_id = request.session.get('user_id')
 	company = request.session.get('company')
 	accident_type = request.session.get('accident_type')
 	claim_id = request.session.get('claim_id')
+	img_upload_step = request.session.get('img_upload_step', 1)
 
 	# 重定向未登录用户
 	if not user_id:
@@ -180,8 +229,7 @@ def claim_img_upload(request):
 	if request.GET.get('claim_id'):
 		claim_id = request.GET.get('claim_id')
 
-	img_upload_step = request.session.get('img_upload_step', 1)
-
+	# 上传步骤
 	type_step = {
 		'danche' : ['站在事故车辆前45度角，10米处拍照。如下图：',
 		            '站在事故车辆前45度角，5米处拍照。如下图：',
@@ -231,6 +279,8 @@ def claim_img_upload(request):
 		            '拿出被被保险人银行卡拍照。如下图：'
 		            ],
 	}
+
+	# 处理请求
 	if request.method == 'GET':
 		# Perform Back
 		if request.GET.get('back'):
@@ -270,7 +320,9 @@ def claim_img_upload(request):
 			return HttpResponseRedirect('/claim/finish')
 
 		if request.FILES.get('claim_img'):
-			image, created = Image.objects.get_or_create(claim_id=claim_id, step=request.session['img_upload_step'])
+			step_name = type_step[accident_type][img_upload_step - 1]
+
+			image, created = Image.objects.get_or_create(name=step_name, claim_id=claim_id, step=request.session['img_upload_step'])
 			image.image = request.FILES.get('claim_img')
 			image.save()
 			img_upload_step += 1

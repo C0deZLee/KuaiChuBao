@@ -28,10 +28,17 @@ def Error404(request):
 	return render(request, '404.html')
 
 
-urlpatterns = [
-	url(r'^claim/', include(claim_urls)),
-	url(r'^insure/', include(insure_urls)),
-	url(r'^admin/', include(admin.site.urls)),
-	url(r'^404/', Error404),
-]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+def Policy(request):
+	if request.GET.get('next') == 'claim':
+		ctx = {'claim': True}
+	else:
+		ctx = {'insure': True}
 
+	return render(request, 'user_policy.html', ctx)
+
+
+urlpatterns = [url(r'^claim/', include(claim_urls)),
+               url(r'^insure/', include(insure_urls)),
+               url(r'^admin/', include(admin.site.urls)),
+               url(r'^policy', Policy),
+               url(r'^404/', Error404)] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

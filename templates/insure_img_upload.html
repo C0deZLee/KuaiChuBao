@@ -9,7 +9,7 @@
         </div>
     </div>
     <!-- Page Content-->
-    <div class="container padding-bottom-3x mb-1">
+    <div class="container padding-bottom-3x mb-3">
         <div class="row">
             <div class="col-sm-12">
                 <p><span class="text-bold">步骤 {{ step }}/8</span>: {{ step_name }}</p>
@@ -21,11 +21,15 @@
                 <div class="dropzone-area">
                     <div class="dropzone-text" id="img_msg">
                         <i class="fa fa-camera"> </i>
-                        <span>点此拍照</span>
+                        <span>点此拍照/上传图片</span>
                     </div>
-                    <input class="custom-file-input" type="file" id="insure_img" name="insure_img">
+                    <input class="custom-file-input" accept="image/*" type="file" id="insure_img" name="insure_img">
                 </div>
                 <p class="text-danger text-center">{{ error_msg }}</p>
+            </div>
+            <div class="col-sm-12" id="show_img_frame" style="display: none">
+                <p class="text-bold">照片预览</p>
+                <img id="show_img" name="show_img">
             </div>
             <div class="col-sm-12 text-center text-sm-right mt-4">
                 <a class="btn btn-outline-primary btn-sm" href="/insure/upload?back=back">返回</a>
@@ -35,8 +39,25 @@
     </div>
     <script>
         $(document).ready(function () {
-            $('#insure_img').on('change', function () {
-                $('#img_msg').html('上传成功')
+            $('#insure_img').on('change', function (e) {
+                $('#img_msg').html('上传成功 (点此重拍)');
+
+                var files = e.target.files || e.dataTransfer.files;
+                // if no files then return
+                if (!e.target.files && !e.dataTransfer.files) return;
+                // else file is the first element in file list
+                const file = files[0];
+                const reader = new FileReader();
+                // convert image to base64 and save to id_front field
+                reader.addEventListener('load', function () {
+                    $("#show_img").attr({
+                        src: reader.result
+                    });
+                    $("#show_img_frame").attr({
+                        style: ''
+                    });
+                }, false);
+                reader.readAsDataURL(file)
             });
         });
 
