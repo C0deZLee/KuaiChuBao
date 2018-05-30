@@ -15,39 +15,6 @@
             <p>您选择的保险公司为<b>{{ company }}</b></p>
             <div class="row">
                 <div class="col-lg-12">
-                    <p><span class="text-bold">选择保额</span></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        <label for="name">机动车第三者责任保险</label>
-                        <select class="form-control" id="jidongchedisanzerenbaoxian" name="jidongchedisanzerenbaoxian" required="">
-                            <option value="">--请选择--</option>
-                            <option>10万元</option>
-                            <option>20万元</option>
-                            <option>30万元</option>
-                            <option>50万元</option>
-                            <option>100万元</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        <label for="national_id">机动车车上人员责任保险</label>
-                        <select class="form-control" id="jidongchecheshangrenyuanzerenbaoxian" name="jidongchecheshangrenyuanzerenbaoxian" required="">
-                            <option value="">--请选择--</option>
-                            <option>1万元</option>
-                            <option>2万元</option>
-                            <option>3万元</option>
-                            <option>5万元</option>
-                            <option>10万元</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
                     <p><span class="text-bold">选择险种</span></p>
                 </div>
             </div>
@@ -55,7 +22,42 @@
                 <div class="col-lg-12">
                     <div class="col-lg-12 form-group">
                         <label class="custom-control custom-checkbox d-block">
-                            <input class="custom-control-input" type="checkbox" id="jidongcheshiguzerenqiangzhibaoxian" name="jidongcheshiguzerenqiangzhibaoxian"><span class="custom-control-indicator"></span>
+                            <input class="custom-control-input" type="checkbox" id="jidongcheshiguzerenqiangzhibaoxian" name="jidongcheshiguzerenqiangzhibaoxian" onclick="firstCheck()"><span
+                                class="custom-control-indicator"></span>
+                            <span class="custom-control-description">机动车第三者责任保险</span>
+                        </label>
+                        <div class="col-lg-12" id="jidongcheshiguzerenqiangzhibaoxianbaoediv" style="display: none">
+                            <div class="form-group">
+                                <select class="form-control" id="jidongcheshiguzerenqiangzhibaoxianbaoe" name="jidongcheshiguzerenqiangzhibaoxianbaoe">
+                                    <option value="">--请选择保额--</option>
+                                    <option>10万元</option>
+                                    <option>20万元</option>
+                                    <option>30万元</option>
+                                    <option>50万元</option>
+                                    <option>100万元</option>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox" id="jidongchecheshangrenyuanzerenbaoxian" name="jidongchecheshangrenyuanzerenbaoxian" onclick="secondCheck()"><span
+                                class="custom-control-indicator"></span>
+                            <span class="custom-control-description">机动车车上人员责任保险</span>
+                        </label>
+                        <div class="col-lg-12" id="jidongchecheshangrenyuanzerenbaoxianbaoediv" style="display: none">
+                            <div class="form-group">
+                                <select class="form-control" id="jidongchecheshangrenyuanzerenbaoxianbaoe" name="jidongchecheshangrenyuanzerenbaoxianbaoe">
+                                    <option value="">--请选择保额--</option>
+                                    <option>1万元</option>
+                                    <option>2万元</option>
+                                    <option>3万元</option>
+                                    <option>5万元</option>
+                                    <option>10万元</option>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox" id="jidongcheshiguzerenqiangzhibaoxian" name="jidongcheshiguzerenqiangzhibaoxian"><span
+                                class="custom-control-indicator"></span>
                             <span class="custom-control-description">机动车事故责任强制险</span>
                         </label>
                         <label class="custom-control custom-checkbox d-block">
@@ -67,7 +69,8 @@
                                 class="custom-control-description">机动车损失保险</span>
                         </label>
                         <label class="custom-control custom-checkbox d-block">
-                            <input class="custom-control-input" type="checkbox" id="jidongchequanchedaoqiangbaoxian" name="jidongchequanchedaoqiangbaoxian"><span class="custom-control-indicator"></span><span
+                            <input class="custom-control-input" type="checkbox" id="jidongchequanchedaoqiangbaoxian" name="jidongchequanchedaoqiangbaoxian"><span
+                                class="custom-control-indicator"></span><span
                                 class="custom-control-description">机动车全车抢盗保险</span>
                         </label>
                         <label class="custom-control custom-checkbox d-block">
@@ -91,26 +94,28 @@
                                 class="custom-control-description">发动机涉水损失险</span>
                         </label>
                         <label class="custom-control custom-checkbox d-block">
-                            <input class="custom-control-input" type="checkbox" id="xiuliqijianfeiyongbuchangxian" name="xiuliqijianfeiyongbuchangxian"><span class="custom-control-indicator"></span><span
+                            <input class="custom-control-input" type="checkbox" id="xiuliqijianfeiyongbuchangxian" name="xiuliqijianfeiyongbuchangxian"><span
+                                class="custom-control-indicator"></span><span
                                 class="custom-control-description">修理期间费用补偿险</span>
                         </label>
                         <label class="custom-control custom-checkbox d-block">
                             <input class="custom-control-input" type="checkbox" id="cheshanghuowuzerenxian" name="cheshanghuowuzerenxian"><span class="custom-control-indicator"></span><span
                                 class="custom-control-description">车上货物损失险</span>
                         </label>
-                         <label class="custom-control custom-checkbox d-block">
+                        <label class="custom-control custom-checkbox d-block">
                             <input class="custom-control-input" type="checkbox" id="jingshensunhaifuxujinzerenxian" name="jingshensunhaifuxujinzerenxian"><span class="custom-control-indicator"></span><span
                                 class="custom-control-description">精神损害抚恤金险</span>
                         </label>
-                         <label class="custom-control custom-checkbox d-block">
+                        <label class="custom-control custom-checkbox d-block">
                             <input class="custom-control-input" type="checkbox" id="bujimianpeilvxian" name="bujimianpeilvxian"><span class="custom-control-indicator"></span><span
                                 class="custom-control-description">不计免赔率险</span>
                         </label>
-                         <label class="custom-control custom-checkbox d-block">
-                            <input class="custom-control-input" type="checkbox" id="jidongchesunshibaoxianwufazhaodaodisanfangteyuexian" name="jidongchesunshibaoxianwufazhaodaodisanfangteyuexian"><span class="custom-control-indicator"></span><span
+                        <label class="custom-control custom-checkbox d-block">
+                            <input class="custom-control-input" type="checkbox" id="jidongchesunshibaoxianwufazhaodaodisanfangteyuexian"
+                                   name="jidongchesunshibaoxianwufazhaodaodisanfangteyuexian"><span class="custom-control-indicator"></span><span
                                 class="custom-control-description">机动车损失无法找到第三方特约险</span>
                         </label>
-                         <label class="custom-control custom-checkbox d-block">
+                        <label class="custom-control custom-checkbox d-block">
                             <input class="custom-control-input" type="checkbox" id="zhidingxiulichangxian" name="zhidingxiulichangxian"><span class="custom-control-indicator"></span><span
                                 class="custom-control-description">指定修理厂险</span>
                         </label>
@@ -124,5 +129,30 @@
             </div>
         </form>
     </div>
+    <script>
+        function firstCheck() {
+            if ($("#jidongcheshiguzerenqiangzhibaoxian:checked").length > 0) {
+                $("#jidongcheshiguzerenqiangzhibaoxianbaoediv").attr({
+                    style: ''
+                });
+            } else {
+                $("#jidongcheshiguzerenqiangzhibaoxianbaoediv").attr({
+                    style: 'display:none'
+                });
+            }
+        }
+
+        function secondCheck() {
+            if ($("#jidongchecheshangrenyuanzerenbaoxian:checked").length > 0) {
+                $("#jidongchecheshangrenyuanzerenbaoxianbaoediv").attr({
+                    style: ''
+                });
+            } else {
+                $("#jidongchecheshangrenyuanzerenbaoxianbaoediv").attr({
+                    style: 'display:none'
+                });
+            }
+        }
+    </script>
 
 {% endblock %}

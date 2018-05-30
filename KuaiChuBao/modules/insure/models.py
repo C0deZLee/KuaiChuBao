@@ -25,8 +25,10 @@ class InsureInfo(models.Model):
 	last_year_commercial_insurance = models.ImageField(upload_to='users/driver_license', null=True, blank=True, verbose_name='去年商业险保单')
 
 	# Details
-	jidongchedisanzerenbaoxian = models.CharField(default=0, max_length=100, verbose_name='机动车第三者责任保险')
-	jidongchecheshangrenyuanzerenbaoxian = models.CharField(default=0, max_length=100, verbose_name='机动车车上人员责任保险')
+	jidongchedisanzerenbaoxian = models.BooleanField(default=False, verbose_name='机动车第三者责任保险')
+	jidongchecheshangrenyuanzerenbaoxian = models.BooleanField(default=False, verbose_name='机动车车上人员责任保险')
+	jidongchedisanzerenbaoxianbaoe = models.CharField(max_length=100, null=True, blank=True, verbose_name='机动车第三者责任保险 保额')
+	jidongchecheshangrenyuanzerenbaoxianbaoe = models.CharField(max_length=100, null=True, blank=True, verbose_name='机动车车上人员责任保险 保额')
 
 	jidongcheshiguzerenqiangzhibaoxian = models.BooleanField(default=False, verbose_name='机动车事故责任强制险')
 	chechuanshiyongshui = models.BooleanField(default=False, verbose_name='车船使用税')

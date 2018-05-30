@@ -17,7 +17,9 @@ class InsureInfoAdmin(admin.ModelAdmin):
 	fieldsets = (
 		('', {'fields': ('user', 'insure_company',)}),
 		('投保信息', {'fields': ('jidongchedisanzerenbaoxian',
+		                     'jidongchedisanzerenbaoxianbaoe',
 		                     'jidongchecheshangrenyuanzerenbaoxian',
+		                     'jidongchecheshangrenyuanzerenbaoxianbaoe',
 		                     'jidongcheshiguzerenqiangzhibaoxian',
 		                     'chechuanshiyongshui',
 		                     'jidongchesunshibaoxian',

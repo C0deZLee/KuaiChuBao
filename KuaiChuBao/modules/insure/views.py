@@ -122,8 +122,11 @@ def insure_form(request):
 			# 拉取InsureInfo实例
 			insure_info = InsureInfo.objects.get(id=request.session.get('insure_info_id'))
 
-			insure_info.jidongchedisanzerenbaoxian = request.POST.get('jidongchedisanzerenbaoxian')
-			insure_info.jidongchecheshangrenyuanzerenbaoxian = request.POST.get('jidongchecheshangrenyuanzerenbaoxian')
+			insure_info.jidongchedisanzerenbaoxian = True if request.POST.get('jidongchedisanzerenbaoxian') else False
+			insure_info.jidongchedisanzerenbaoxianbaoe = request.POST.get('jidongchedisanzerenbaoxianbaoe') if request.POST.get('jidongchedisanzerenbaoxian') else None
+
+			insure_info.jidongchecheshangrenyuanzerenbaoxian = True if request.POST.get('jidongchecheshangrenyuanzerenbaoxian') else False
+			insure_info.jidongchecheshangrenyuanzerenbaoxianbaoe = request.POST.get('jidongchecheshangrenyuanzerenbaoxianbaoe') if request.POST.get('jidongchecheshangrenyuanzerenbaoxian') else None
 
 			insure_info.jidongcheshiguzerenqiangzhibaoxian = True if request.POST.get('jidongcheshiguzerenqiangzhibaoxian') else False
 			insure_info.chechuanshiyongshui = True if request.POST.get('chechuanshiyongshui') else False

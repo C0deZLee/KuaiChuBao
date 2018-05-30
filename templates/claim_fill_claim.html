@@ -36,8 +36,8 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="phone">出险时间 例：2017/12/21 17:00</label>
-                            <input class="form-control" type="datetime-local" id="time" name="time" required="" placeholder="xxxx/xx/xx xx:xx" value="{{ time }}">
+                            <label for="phone">出险时间</label>
+                            <input class="form-control" type="datetime-local" id="time" name="time" required="" placeholder="时间" value="{{ time }}" onchange="getTime()">
                         </div>
                     </div>
                     <div class="col-sm-12">
@@ -87,17 +87,56 @@
 
                         });
                     }, function (error) {
-                        alert("获取位置失败，请手动填写地址");
+                        alert("获取位置失败，请手动填写地址。\nError: " + error);
                         $("#get_location_link").html('<i class="fa fa-compass"></i>地址获取完成，点此重新定位。');
 
                     });
             }
             else {
-                alert("获取位置失败，请手动填写地址");
+                alert("当前浏览器不支持定位，请手动填写地址");
                 $("#get_location_link").html('<i class="fa fa-compass"></i>地址获取完成，点此重新定位。');
 
             }
         }
 
+        function setTime() {
+            var d = new Date();
+
+            if (d.getMonth() + 1 < 10)
+                var mon = '0' + (d.getMonth() + 1);
+            else
+                var mon = d.getMonth() + 1;
+
+            if (d.getDate() < 10)
+                var day = '0' + d.getDate();
+            else
+                var day = d.getDate();
+
+            if (d.getHours() < 10)
+                var hr = '0' + d.getHours();
+            else
+                var hr = d.getHours();
+
+            if (d.getMinutes() < 10)
+                var min = '0' + d.getMinutes();
+            else
+                var min = d.getMinutes();
+
+            var datetimenow = d.getFullYear() + '-' + mon + '-' + day + 'T' + hr + ':' + min;
+            $("#time").val(datetimenow)
+        }
+
+        function getTime() {
+            if (Date.parse($("#time").val()) > Date.now()) {
+                alert('出险时间必须小于当前时间');
+                setTime();
+            }
+        }
+
+        {% if not time %}
+            $(document).ready(function () {
+                setTime();
+            });
+        {% endif %}
     </script>
 {% endblock %}
