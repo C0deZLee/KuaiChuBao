@@ -73,7 +73,7 @@
                         // 创建地理编码实例
                         var myGeo = new BMap.Geocoder();
                         // 根据坐标得到地址描述
-                        myGeo.getLocation(new BMap.Point(latitude, longitude), function (result) {
+                        myGeo.getLocation(new BMap.Point(longitude, latitude), function (result) {
                             {#myGeo.getLocation(new BMap.Point(116.44556, 39.23453), function (result) {#}
                             if (result && result.address !== '') {
                                 alert(result.address);
@@ -87,7 +87,7 @@
 
                         });
                     }, function (error) {
-                        alert("获取位置失败，请手动填写地址。\nError: " + error);
+                        alert("获取位置失败，请手动填写地址。\nError: " + error.toSource());
                         $("#get_location_link").html('<i class="fa fa-compass"></i>地址获取完成，点此重新定位。');
 
                     });
