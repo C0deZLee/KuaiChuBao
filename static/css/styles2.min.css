@@ -3723,7 +3723,6 @@ a.list-group-item {
     background-color: #0da9ef;
     color: #fff;
     cursor: default;
-    pointer-events: none
 }
 
 .list-group-item.active h1, .list-group-item.active .h1, .list-group-item.active h2, .list-group-item.active .h2, .list-group-item.active h3, .list-group-item.active .h3, .list-group-item.active h4, .list-group-item.active .h4, .list-group-item.active h5, .list-group-item.active .h5, .list-group-item.active h6, .list-group-item.active .h6 {

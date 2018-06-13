@@ -10,17 +10,78 @@
     </div>
     <!-- Page Content-->
     <div class="container padding-bottom-3x mb-3">
-        <div class="row">
+        <form class="row" action="/insure/company" method="post">
+            {% csrf_token %}
+
             <div class="col-md-12">
                 <div class="col-md-12 margin-bottom-2x">
-                    <p>选择您想要投保的公司</p>
+                    <p>选择您想要投保的公司（<b>可多选</b>）</p>
                     <nav class="list-group">
+                        <a class="list-group-item" href="#" onclick="selectAll()" id="all" name="all">
+                            <i class="icon-check" id="allicon" style="display: none"></i>
+                            全选
+                        </a>
                         {% for company in companies %}
-                            <a class="list-group-item" href="/insure/form?company={{ company }}">{{ company }}</a>
+                            <a class="list-group-item" href="#" onclick="selectCompany({{ company.id }})" id="{{ company.id }}" name="{{ company.id }}">
+                                <i class="icon-check" id="{{ company.id }}icon" style="display: none"></i>
+                                {{ company }}
+                            </a>
                         {% endfor %}
                     </nav>
+                    {% for company in companies %}
+                        <input class="check" type="checkbox" id="{{ company.id }}-check" name="{{ company.id }}-check" style="display: none;">
+                    {% endfor %}
                 </div>
             </div>
-        </div>
+            <div class="col-12 text-center">
+                {% if error %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endif %}
+                <button class="btn btn-primary btn-sm" type="submit">下一步</button>
+            </div>
+        </form>
     </div>
+    <script>
+         function selectAll() {
+            var all = $('#all');
+            var e = $('.list-group-item');
+            var e_icon = $('.icon-check');
+            var e_check = $('.check');
+            if (all.hasClass("active")) {
+                e.removeClass('active text-white');
+                e_icon.attr({
+                    style: 'display:none'
+                });
+                e_check.prop("checked", false)
+            }
+            else {
+                e.addClass('active text-white');
+                e_icon.attr({
+                    style: ''
+                });
+                e_check.prop("checked", true)
+            }
+        }
+
+        function selectCompany(id) {
+            var e = $('#' + id);
+            var e_icon = $('#' + id + 'icon');
+            var e_check = $('#' + id + '-check');
+            if (e.hasClass("active")) {
+                e.removeClass('active text-white');
+                e_icon.attr({
+                    style: 'display:none'
+                });
+                e_check.prop("checked", false)
+
+            }
+            else {
+                e.addClass('active text-white');
+                e_icon.attr({
+                    style: ''
+                });
+                e_check.prop("checked", true)
+            }
+        }
+    </script>
 {% endblock %}

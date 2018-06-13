@@ -20,6 +20,8 @@ class InsureInfoAdmin(admin.ModelAdmin):
 		                     'jidongchedisanzerenbaoxianbaoe',
 		                     'jidongchecheshangrenyuanzerenbaoxian',
 		                     'jidongchecheshangrenyuanzerenbaoxianbaoe',
+		                     'jidongchecheshangrenyuanzerenbaoxianchengke',
+		                     'jidongchecheshangrenyuanzerenbaoxianchengkebaoe',
 		                     'jidongcheshiguzerenqiangzhibaoxian',
 		                     'chechuanshiyongshui',
 		                     'jidongchesunshibaoxian',

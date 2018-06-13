@@ -282,7 +282,14 @@ def claim_img_upload(request):
 
 	# 处理请求
 	if request.method == 'GET':
-		# Perform Back
+
+		# Get Total Steps
+		if accident_type == 'danche':
+			total_steps = 13
+		else:
+			total_steps = 15
+
+		# Perform Back Action
 		if request.GET.get('back'):
 			if img_upload_step == 1:
 				return HttpResponseRedirect('/claim/fill')
@@ -292,20 +299,21 @@ def claim_img_upload(request):
 				step_name = type_step[accident_type][img_upload_step - 1]
 				# Demo img url
 				img_url = 'img/' + accident_type + '/' + str(img_upload_step - 1) + '.png'
-
-				return render(request, 'claim_img_upload.html', {'type'     : accident_type,
-				                                                 'step'     : img_upload_step,
-				                                                 'step_name': step_name,
-				                                                 'img_url'  : img_url})
+				return render(request, 'claim_img_upload.html', {'type'       : accident_type,
+				                                                 'step'       : img_upload_step,
+				                                                 'step_name'  : step_name,
+				                                                 'img_url'    : img_url,
+				                                                 'total_steps': total_steps})
 
 		# Create context
 		step_name = type_step[accident_type][img_upload_step - 1]
 		# Demo img url
 		img_url = 'img/' + accident_type + '/' + str(img_upload_step - 1) + '.png'
-		ctx = {'type'     : accident_type,
-		       'step'     : img_upload_step,
-		       'step_name': step_name,
-		       'img_url'  : img_url}
+		ctx = {'type'       : accident_type,
+		       'step'       : img_upload_step,
+		       'step_name'  : step_name,
+		       'img_url'    : img_url,
+		       'total_steps': total_steps}
 
 		if request.GET.get('empty'):
 			ctx['error_msg'] = '图片不得为空'
@@ -313,24 +321,27 @@ def claim_img_upload(request):
 		return render(request, 'claim_img_upload.html', ctx)
 
 	if request.method == 'POST':
-		# 如果到了最后一步，跳转到结束页面
-		if accident_type == 'danche' and img_upload_step == 14:
-			return HttpResponseRedirect('/claim/finish')
-		elif img_upload_step == 15:
-			return HttpResponseRedirect('/claim/finish')
-
-		if request.FILES.get('claim_img'):
-			step_name = type_step[accident_type][img_upload_step - 1]
-
-			image, created = Image.objects.get_or_create(name=step_name, claim_id=claim_id, step=request.session['img_upload_step'])
-			image.image = request.FILES.get('claim_img')
-			image.save()
-			img_upload_step += 1
-			request.session['img_upload_step'] = img_upload_step
-
-			return HttpResponseRedirect('/claim/upload')
-		else:
+		# 如果没有图片信息，返回错误信息
+		if not request.FILES.get('claim_img'):
 			return HttpResponseRedirect('/claim/upload?empty=true')
+
+		# 有图片
+		step_name = type_step[accident_type][img_upload_step - 1]
+
+		image, created = Image.objects.get_or_create(name=step_name.split('。')[0], claim_id=claim_id, step=request.session['img_upload_step'])
+		image.image = request.FILES.get('claim_img')
+		image.save()
+		img_upload_step += 1
+		request.session['img_upload_step'] = img_upload_step
+
+		# 如果到了最后一步，跳转到结束页面
+		if accident_type == 'danche' and img_upload_step == 15:
+			return HttpResponseRedirect('/claim/finish')
+		elif img_upload_step == 16:
+			return HttpResponseRedirect('/claim/finish')
+
+		# 如果没到最后一步，继续下一步
+		return HttpResponseRedirect('/claim/upload')
 
 
 def claim_finish(request):

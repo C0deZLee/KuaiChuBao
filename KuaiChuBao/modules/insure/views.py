@@ -83,25 +83,15 @@ def insure_company(request):
 		return render(request, 'insure_chose_company.html',
 		              {'companies': companies})
 
-
-def insure_form(request):
-	# 重定向未登录用户
-	if not request.session.get('user_id'):
-		return HttpResponseRedirect('/insure')
-
-	# 重定向没有选公司的用户
-	if (not request.GET.get('company')) and (not request.session['company']):
-		return HttpResponseRedirect('/insure')
-
-	insure_info_id = request.session.get('insure_info_id')
-
-	# 处理请求
-	if request.method == 'GET':
-		# 在url中获取type存入session
-		if not request.session.get('company') or request.GET.get('company'):
-			request.session['company'] = request.GET.get('company')
-
-		company = InsuranceCompany.objects.get(name=urllib.unquote(request.session['company']))
+	elif request.method == 'POST':
+		companies = []
+		for form_data in request.POST:
+			if '-check' in form_data:
+				companies.append(InsuranceCompany.objects.get(id=form_data.split('-')[0]))
+		if not companies:
+			companies = InsuranceCompany.objects.all()
+			return render(request, 'insure_chose_company.html',
+			              {'error': '必须选择至少一个投保公司', 'companies': companies})
 
 		# Check if user already has a insure and resume from there
 		if not request.session.get('insure_info_id'):
@@ -109,24 +99,52 @@ def insure_form(request):
 			insure_info = InsureInfo.objects.create(
 				step=2,
 				user_id=request.session.get('user_id'),
-				insure_company=company
 			)
-			request.session['insure_info_id'] = insure_info.id
+			for company in companies:
+				insure_info.insure_company.add(company)
 
-		return render(request, 'insure_form.html', {'company': request.session['company']})
+			insure_info.save()
+			request.session['insure_info_id'] = insure_info.id
+		else:
+			insure_info = InsureInfo.objects.get(id=request.session.get('insure_info_id'))
+			insure_info.insure_company.clear()
+			for company in companies:
+				insure_info.insure_company.add(company)
+			insure_info.save()
+
+		return HttpResponseRedirect('/insure/form')
+
+
+def insure_form(request):
+	# 重定向未登录用户
+	if not request.session.get('user_id'):
+		return HttpResponseRedirect('/insure')
+
+	insure_info_id = request.session.get('insure_info_id')
+
+	# 处理请求
+	if request.method == 'GET':
+		insure_info = InsureInfo.objects.get(id=insure_info_id)
+		companies = insure_info.insure_company.all()
+
+		return render(request, 'insure_form.html', {'companies': companies})
 
 	elif request.method == 'POST':
 		if not request.session.get('insure_info_id'):
 			return HttpResponseRedirect('/insure/form')
 		else:
 			# 拉取InsureInfo实例
-			insure_info = InsureInfo.objects.get(id=request.session.get('insure_info_id'))
+			insure_info = InsureInfo.objects.get(id=insure_info_id)
 
-			insure_info.jidongchedisanzerenbaoxian = True if request.POST.get('jidongchedisanzerenbaoxian') else False
-			insure_info.jidongchedisanzerenbaoxianbaoe = request.POST.get('jidongchedisanzerenbaoxianbaoe') if request.POST.get('jidongchedisanzerenbaoxian') else None
+			insure_info.jidongchedisanzerenbaoxian = True if request.POST.get('jidongchedisanfangzerenbaoxian') else False
+			insure_info.jidongchedisanzerenbaoxianbaoe = request.POST.get('jidongchedisanfangzerenbaoxianbaoe') if request.POST.get('jidongchedisanfangzerenbaoxian') else None
 
 			insure_info.jidongchecheshangrenyuanzerenbaoxian = True if request.POST.get('jidongchecheshangrenyuanzerenbaoxian') else False
 			insure_info.jidongchecheshangrenyuanzerenbaoxianbaoe = request.POST.get('jidongchecheshangrenyuanzerenbaoxianbaoe') if request.POST.get('jidongchecheshangrenyuanzerenbaoxian') else None
+
+			insure_info.jidongchecheshangrenyuanzerenbaoxianchengke = True if request.POST.get('jidongchecheshangrenyuanzerenbaoxianchengke') else False
+			insure_info.jidongchecheshangrenyuanzerenbaoxianchengkebaoe = request.POST.get('jidongchecheshangrenyuanzerenbaoxianchengkebaoe') if request.POST.get(
+				'jidongchecheshangrenyuanzerenbaoxianchengke') else None
 
 			insure_info.jidongcheshiguzerenqiangzhibaoxian = True if request.POST.get('jidongcheshiguzerenqiangzhibaoxian') else False
 			insure_info.chechuanshiyongshui = True if request.POST.get('chechuanshiyongshui') else False
@@ -151,15 +169,10 @@ def insure_form(request):
 
 def insure_upload(request):
 	user_id = request.session.get('user_id')
-	company = request.session.get('company')
 	insure_id = request.session.get('insure_info_id')
 
 	# 重定向未登录用户
 	if not user_id:
-		return HttpResponseRedirect('/insure')
-
-	# 重定向无company用户
-	if not company and not request.GET.get('company'):
 		return HttpResponseRedirect('/insure')
 
 	# 重定向无insure_id用户
@@ -196,16 +209,13 @@ def insure_upload(request):
 
 		ctx = {'step'     : img_upload_step,
 		       'step_name': step_name}
-
-		if request.GET.get('empty'):
-			ctx['error_msg'] = '图片不得为空'
-
+		#
+		# if request.GET.get('empty'):
+		# 	ctx['error_msg'] = '图片不得为空'
+		#
 		return render(request, 'insure_img_upload.html', ctx)
 
 	if request.method == 'POST':
-		# 如果到了最后一步，跳转到结束页面
-		if img_upload_step == 8:
-			return HttpResponseRedirect('/insure/finish')
 
 		if request.FILES.get('insure_img'):
 			if img_upload_step == 1:
@@ -224,6 +234,9 @@ def insure_upload(request):
 				insure_instance.last_year_enforced_insurance = request.FILES.get('insure_img')
 			elif img_upload_step == 8:
 				insure_instance.last_year_commercial_insurance = request.FILES.get('insure_img')
+				insure_instance.save()
+				# 如果到了最后一步，跳转到结束页面
+				return HttpResponseRedirect('/insure/finish')
 
 			insure_instance.save()
 			img_upload_step += 1
@@ -231,6 +244,8 @@ def insure_upload(request):
 
 			return HttpResponseRedirect('/insure/upload')
 		else:
+			img_upload_step += 1
+			request.session['img_upload_step'] = img_upload_step
 			return HttpResponseRedirect('/insure/upload?empty=true')
 
 

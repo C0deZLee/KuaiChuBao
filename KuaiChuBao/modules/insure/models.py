@@ -12,7 +12,7 @@ class InsureInfo(models.Model):
 
 	# Link
 	user = models.ForeignKey('user.User', related_name='insures', on_delete=models.PROTECT, verbose_name='用户')
-	insure_company = models.ForeignKey(InsuranceCompany, on_delete=models.PROTECT, verbose_name='保险公司')
+	insure_company = models.ManyToManyField(InsuranceCompany, verbose_name='保险公司')
 
 	# Images
 	car_owner_national_id_top = models.ImageField(upload_to='users/national_id', null=True, blank=True, verbose_name='车主身份证（正面）')
@@ -26,16 +26,19 @@ class InsureInfo(models.Model):
 
 	# Details
 	jidongchedisanzerenbaoxian = models.BooleanField(default=False, verbose_name='机动车第三者责任保险')
-	jidongchecheshangrenyuanzerenbaoxian = models.BooleanField(default=False, verbose_name='机动车车上人员责任保险')
+	jidongchecheshangrenyuanzerenbaoxian = models.BooleanField(default=False, verbose_name='机动车车上人员责任保险（司机）')
+	jidongchecheshangrenyuanzerenbaoxianchengke = models.BooleanField(default=False, verbose_name='机动车车上人员责任保险（乘客）')
+
 	jidongchedisanzerenbaoxianbaoe = models.CharField(max_length=100, null=True, blank=True, verbose_name='机动车第三者责任保险 保额')
-	jidongchecheshangrenyuanzerenbaoxianbaoe = models.CharField(max_length=100, null=True, blank=True, verbose_name='机动车车上人员责任保险 保额')
+	jidongchecheshangrenyuanzerenbaoxianbaoe = models.CharField(max_length=100, null=True, blank=True, verbose_name='机动车车上人员责任保险（司机） 保额')
+	jidongchecheshangrenyuanzerenbaoxianchengkebaoe = models.CharField(max_length=100, null=True, blank=True, verbose_name='机动车车上人员责任保险（乘客） 保额')
 
 	jidongcheshiguzerenqiangzhibaoxian = models.BooleanField(default=False, verbose_name='机动车事故责任强制险')
 	chechuanshiyongshui = models.BooleanField(default=False, verbose_name='车船使用税')
 	jidongchesunshibaoxian = models.BooleanField(default=False, verbose_name='机动车损失保险')
 	jidongchequanchedaoqiangbaoxian = models.BooleanField(default=False, verbose_name='机动车全车抢盗保险')
 	bolidanduposuixian = models.BooleanField(default=False, verbose_name='玻璃单独破碎保险')
-	ziransunshixian = models.BooleanField(default=False, verbose_name='自然损失险')
+	ziransunshixian = models.BooleanField(default=False, verbose_name='自燃损失险')
 	xinzengshebensunshixian = models.BooleanField(default=False, verbose_name='新加设备损失险')
 
 	cheshenhuahenshunshixian = models.BooleanField(default=False, verbose_name='车身划痕损失险')

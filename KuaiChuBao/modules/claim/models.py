@@ -68,14 +68,14 @@ class Image(models.Model):
 	name = models.CharField(max_length=120, verbose_name='图像名称')
 	claim = models.ForeignKey(Claim, related_name='images', verbose_name='出险记录')
 	image = models.ImageField(upload_to='claims', verbose_name='图像记录')
-	step = models.IntegerField()
+	step = models.IntegerField(verbose_name='步骤')
 
 	# Time stamp
-	created = models.DateTimeField(auto_now_add=True)
+	created = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
 	def __unicode__(self):
 		return self.claim.user.name + ' ' + self.created.strftime('%Y-%m-%d %H:%M') + ' image'
 
 	class Meta:
-		verbose_name = '图片'
-		verbose_name_plural = '图片'
+		verbose_name = '出险记录图片'
+		verbose_name_plural = '出险记录图片'
