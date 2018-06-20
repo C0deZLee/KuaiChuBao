@@ -30,8 +30,33 @@ class ClaimAdmin(admin.ModelAdmin):
 		qs = super(ClaimAdmin, self).get_queryset(request)
 		if request.user.is_superuser:
 			return qs
-		# if request.user.has_perm:
-		return qs.filter(company__name='Demo1')
+		if not request.user.has_perm('claim.can_view_ya'):
+			qs = qs.exclude(company__name='永安财险')
+		if not request.user.has_perm('claim.can_view_ga'):
+			qs = qs.exclude(company__name='国元财险')
+		if not request.user.has_perm('claim.can_view_yc'):
+			qs = qs.exclude(company__name='永诚财险')
+		if not request.user.has_perm('claim.can_view_jt'):
+			qs = qs.exclude(company__name='锦泰财险')
+		if not request.user.has_perm('claim.can_view_ac'):
+			qs = qs.exclude(company__name='安诚财险')
+		if not request.user.has_perm('claim.can_view_de'):
+			qs = qs.exclude(company__name='鼎和财险')
+		if not request.user.has_perm('claim.can_view_ha'):
+			qs = qs.exclude(company__name='华安财险')
+		if not request.user.has_perm('claim.can_view_gs'):
+			qs = qs.exclude(company__name='国寿财险')
+		if not request.user.has_perm('claim.can_view_dd'):
+			qs = qs.exclude(company__name='大地财险')
+		if not request.user.has_perm('claim.can_view_yg'):
+			qs = qs.exclude(company__name='阳光财险')
+		if not request.user.has_perm('claim.can_view_tb'):
+			qs = qs.exclude(company__name='太保财险')
+		if not request.user.has_perm('claim.can_view_pa'):
+			qs = qs.exclude(company__name='平安财险')
+		if not request.user.has_perm('claim.can_view_rb'):
+			qs = qs.exclude(company__name='人保财险')
+		return qs
 
 	# List display Settings
 	list_display = ('id', 'user', 'company', 'time', 'car_plate', 'location',)
