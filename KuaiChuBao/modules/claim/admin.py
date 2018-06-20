@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from django.utils.html import mark_safe
-from guardian.admin import GuardedModelAdmin
 from django.contrib.auth.models import Permission
 from django.contrib import admin
 
@@ -26,7 +25,7 @@ class ImageInline(admin.TabularInline):
 
 
 @admin.register(Claim)
-class ClaimAdmin(GuardedModelAdmin):
+class ClaimAdmin(admin.ModelAdmin):
 	def get_queryset(self, request):
 		qs = super(ClaimAdmin, self).get_queryset(request)
 		if request.user.is_superuser:
