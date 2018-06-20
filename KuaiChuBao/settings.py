@@ -16,6 +16,8 @@ import mimetypes
 
 mimetypes.add_type("image/svg+xml", ".svg", True)
 mimetypes.add_type("image/svg+xml", ".svgz", True)
+mimetypes.add_type("image/svg+xml", "*.svg", True)
+mimetypes.add_type("image/svg+xml", "*.svgz", True)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
