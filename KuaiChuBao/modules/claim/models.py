@@ -62,6 +62,9 @@ class Claim(models.Model):
 	class Meta:
 		verbose_name = '出险记录'
 		verbose_name_plural = '出险记录'
+		permissions = (
+			('view_claim', '查看出险记录'),
+		)
 
 
 class Image(models.Model):

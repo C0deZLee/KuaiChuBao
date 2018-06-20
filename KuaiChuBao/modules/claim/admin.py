@@ -2,6 +2,10 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
+from django.utils.html import mark_safe
+from guardian.admin import GuardedModelAdmin
+from django.contrib.auth.models import Permission
+from django.contrib import admin
 
 from .models import Claim, InsuranceCompany, Image, Location
 
@@ -11,16 +15,28 @@ admin.site.register(InsuranceCompany)
 class ImageInline(admin.TabularInline):
 	model = Image
 	show_change_link = True
-	fields = ('step', 'name', 'image', 'created',)
-	readonly_fields = ('step', 'name', 'created')
+	fields = ('step', 'name', 'image', 'image_tag', 'created',)
+	readonly_fields = ('step', 'name', 'image_tag', 'created')
 	extra = 0
+
+	def image_tag(self, obj):
+		return mark_safe(u'<img src="' + obj.image.url + '" style="width:50%;height:50%" />')
+
+	image_tag.short_description = '图像缩略图'
 
 
 @admin.register(Claim)
-class ClaimAdmin(admin.ModelAdmin):
+class ClaimAdmin(GuardedModelAdmin):
+	def get_queryset(self, request):
+		qs = super(ClaimAdmin, self).get_queryset(request)
+		if request.user.is_superuser:
+			return qs
+		# if request.user.has_perm:
+		return qs.filter(company__name='Demo1')
+
 	# List display Settings
 	list_display = ('id', 'user', 'company', 'time', 'car_plate', 'location',)
-	search_fields = ('user', 'company')
+	search_fields = ('user__name', 'company__name', 'time', 'car_plate', 'location')
 	ordering = ('created',)
 
 	# Detail Page Settings
@@ -32,3 +48,6 @@ class ClaimAdmin(admin.ModelAdmin):
 	readonly_fields = ('created',)
 
 	inlines = [ImageInline, ]
+
+
+admin.site.register(Permission)
