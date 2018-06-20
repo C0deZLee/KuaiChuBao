@@ -41,4 +41,4 @@ urlpatterns = [url(r'^claim/', include(claim_urls)),
                url(r'^insure/', include(insure_urls)),
                url(r'^admin/', include(admin.site.urls)),
                url(r'^policy', Policy),
-               url(r'^404/', Error404)] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+               url(r'^404/', Error404)] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
