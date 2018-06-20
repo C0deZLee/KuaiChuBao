@@ -205,14 +205,15 @@ def insure_upload(request):
 				                                                  'step_name': step_name})
 
 		# Create context
+
+		if img_upload_step == 9:
+			return HttpResponseRedirect('/insure/finish')
+
 		step_name = type_step[img_upload_step - 1]
 
 		ctx = {'step'     : img_upload_step,
 		       'step_name': step_name}
-		#
-		# if request.GET.get('empty'):
-		# 	ctx['error_msg'] = '图片不得为空'
-		#
+
 		return render(request, 'insure_img_upload.html', ctx)
 
 	if request.method == 'POST':
