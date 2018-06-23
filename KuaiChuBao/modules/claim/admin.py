@@ -59,9 +59,10 @@ class ClaimAdmin(admin.ModelAdmin):
 		return qs
 
 	# List display Settings
-	list_display = ('id', 'user', 'company', 'time', 'car_plate', 'location',)
+	list_display = ('id', 'user', 'company', 'time', 'car_plate', 'location', 'insured_person', 'driver', 'contact_phone')
+
 	search_fields = ('user__name', 'company__name', 'time', 'car_plate', 'location')
-	ordering = ('created',)
+	ordering = ('-created',)
 
 	# Detail Page Settings
 	fieldsets = (

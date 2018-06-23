@@ -179,6 +179,9 @@ def claim_fill_claim(request):
 				claim.accident_type = request.session['accident_type']
 				claim.car_plate = request.POST.get('car_plate')
 				claim.time = request.POST.get('time')
+				claim.driver = request.POST.get('driver')
+				claim.insured_person = request.POST.get('insured_person')
+				claim.contact_phone = request.POST.get('contact_phone')
 				claim.location = request.POST.get('location')
 				claim.save()
 			else:
@@ -188,6 +191,9 @@ def claim_fill_claim(request):
 					accident_type=request.session['accident_type'],
 					car_plate=request.POST.get('car_plate'),
 					time=request.POST.get('time'),
+					driver=request.POST.get('driver'),
+					insured_person=request.POST.get('insured_person'),
+					contact_phone=request.POST.get('contact_phone'),
 					location=request.POST.get('location'),
 				)
 				request.session['claim_id'] = new_claim.id
@@ -321,16 +327,14 @@ def claim_img_upload(request):
 		return render(request, 'claim_img_upload.html', ctx)
 
 	if request.method == 'POST':
-		# 如果没有图片信息，返回错误信息
-		if not request.FILES.get('claim_img'):
-			return HttpResponseRedirect('/claim/upload?empty=true')
+		# 如果有图片， 保存
+		if request.FILES.get('claim_img'):
+			step_name = type_step[accident_type][img_upload_step - 1]
 
-		# 有图片
-		step_name = type_step[accident_type][img_upload_step - 1]
+			image, created = Image.objects.get_or_create(name=step_name.split('。')[0], claim_id=claim_id, step=request.session['img_upload_step'])
+			image.image = request.FILES.get('claim_img')
+			image.save()
 
-		image, created = Image.objects.get_or_create(name=step_name.split('。')[0], claim_id=claim_id, step=request.session['img_upload_step'])
-		image.image = request.FILES.get('claim_img')
-		image.save()
 		img_upload_step += 1
 		request.session['img_upload_step'] = img_upload_step
 

@@ -10,13 +10,13 @@ from .models import InsureInfo
 @admin.register(InsureInfo)
 class InsureInfoAdmin(admin.ModelAdmin):
 	# List display Settings
-	list_display = ('id', 'user', 'created',)
+	list_display = ('id', 'user', 'contact_phone', 'created',)
 	search_fields = ('user__name', 'created',)
-	ordering = ('created',)
+	ordering = ('-created',)
 
 	# Detail Page Settings
 	fieldsets = (
-		('', {'fields': ('user', 'insure_company',)}),
+		('', {'fields': ('user', 'insure_company', 'contact_phone')}),
 		('投保信息', {'fields': ('jidongchedisanzerenbaoxian',
 		                     'jidongchedisanzerenbaoxianbaoe',
 		                     'jidongchecheshangrenyuanzerenbaoxian',
@@ -44,8 +44,10 @@ class InsureInfoAdmin(admin.ModelAdmin):
 		                     'car_owner_national_id_down_tag',
 		                     'driver_license_top',
 		                     'driver_license_top_tag',
-		                     'driver_license_down',
-		                     'driver_license_down_tag',
+		                     'driver_license_down_top',
+		                     'driver_license_down_top_tag',
+		                     'driver_license_down_down',
+		                     'driver_license_down_down_tag',
 		                     'insured_national_id_top',
 		                     'insured_national_id_top_tag',
 		                     'insured_national_id_down',
@@ -58,7 +60,10 @@ class InsureInfoAdmin(admin.ModelAdmin):
 		('Step', {'fields': ('step',)}),
 	)
 	readonly_fields = ('created', 'car_owner_national_id_top_tag', 'car_owner_national_id_down_tag',
-	                   'driver_license_top_tag', 'driver_license_down_tag', 'insured_national_id_top_tag', 'insured_national_id_down_tag',
+	                   'driver_license_down_top',
+	                   'driver_license_down_top_tag',
+	                   'driver_license_down_down',
+	                   'driver_license_down_down_tag', 'insured_national_id_top_tag', 'insured_national_id_down_tag',
 	                   'last_year_enforced_insurance_tag', 'last_year_commercial_insurance_tag')
 
 	def car_owner_national_id_top_tag(self, obj):
@@ -70,8 +75,11 @@ class InsureInfoAdmin(admin.ModelAdmin):
 	def driver_license_top_tag(self, obj):
 		return mark_safe(u'<img src="' + obj.driver_license_top.url + '" style="width:20%;height:20%" />')
 
-	def driver_license_down_tag(self, obj):
-		return mark_safe(u'<img src="' + obj.driver_license_down.url + '" style="width:20%;height:20%" />')
+	def driver_license_down_top_tag(self, obj):
+		return mark_safe(u'<img src="' + obj.driver_license_down_top.url + '" style="width:20%;height:20%" />')
+
+	def driver_license_down_down_tag(self, obj):
+		return mark_safe(u'<img src="' + obj.driver_license_down_down.url + '" style="width:20%;height:20%" />')
 
 	def insured_national_id_top_tag(self, obj):
 		return mark_safe(u'<img src="' + obj.insured_national_id_top.url + '" style="width:20%;height:20%" />')
@@ -88,7 +96,8 @@ class InsureInfoAdmin(admin.ModelAdmin):
 	car_owner_national_id_top_tag.short_description = '车主身份证（正面）缩略图'
 	car_owner_national_id_down_tag.short_description = '车主身份证（反面）缩略图'
 	driver_license_top_tag.short_description = '行驶证正本缩略图'
-	driver_license_down_tag.short_description = '行驶证副本缩略图'
+	driver_license_down_top_tag.short_description = '行驶证副本（正面）缩略图'
+	driver_license_down_down_tag.short_description = '行驶证副本（反面）缩略图'
 	insured_national_id_top_tag.short_description = '被保险人身份证（正面）缩略图'
 	insured_national_id_down_tag.short_description = '被保险人身份证（反面）缩略图'
 	last_year_enforced_insurance_tag.short_description = '去年交强险保单缩略图'

@@ -36,6 +36,24 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
+                            <label for="phone">被保险人姓名</label>
+                            <input class="form-control" type="text" id="insured_person" name="insured_person" required="" value="{{ insured_person }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="phone">驾驶员姓名</label>
+                            <input class="form-control" type="text" id="driver" name="driver" required="" value="{{ driver }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="phone">联系电话</label>
+                            <input class="form-control" type="text" id="contact_phone" name="contact_phone" required="" value="{{ contact_phone }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
                             <label for="phone">出险时间</label>
                             <input class="form-control" type="datetime-local" id="time" name="time" required="" placeholder="时间" value="{{ time }}" onchange="getTime()">
                         </div>

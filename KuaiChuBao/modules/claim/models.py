@@ -44,6 +44,10 @@ class Claim(models.Model):
 	accident_type = models.CharField(choices=TYPE_CHOICES, max_length=20, verbose_name='出险类型')
 	user = models.ForeignKey('user.User', related_name='claims', verbose_name='用户')
 
+	insured_person = models.CharField(max_length=20, verbose_name='被保人姓名')
+	driver = models.CharField(max_length=20, verbose_name='司机姓名')
+	contact_phone = models.CharField(max_length=20, verbose_name='联系电话')
+
 	car_plate = models.CharField(max_length=200, verbose_name='车牌号')
 	time = models.CharField(max_length=200, verbose_name='出险时间')
 	location = models.CharField(max_length=200, verbose_name='出险地点')

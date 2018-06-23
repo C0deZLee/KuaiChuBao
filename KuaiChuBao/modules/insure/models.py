@@ -15,16 +15,18 @@ class InsureInfo(models.Model):
 	insure_company = models.ManyToManyField(InsuranceCompany, verbose_name='保险公司')
 
 	# Images
-	car_owner_national_id_top = models.ImageField(upload_to='users/national_id', null=True, blank=True, verbose_name='车主身份证（正面）')
-	car_owner_national_id_down = models.ImageField(upload_to='users/national_id', null=True, blank=True, verbose_name='车主身份证（反面）')
-	driver_license_top = models.ImageField(upload_to='users/driver_license', null=True, blank=True, verbose_name='行驶证正本')
-	driver_license_down = models.ImageField(upload_to='users/driver_license', null=True, blank=True, verbose_name='行驶证副本')
-	insured_national_id_top = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True, verbose_name='被保险人身份证（正面）')
-	insured_national_id_down = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True, verbose_name='被保险人身份证（反面）')
-	last_year_enforced_insurance = models.ImageField(upload_to='users/driver_license', null=True, blank=True, verbose_name='去年交强险保单')
-	last_year_commercial_insurance = models.ImageField(upload_to='users/driver_license', null=True, blank=True, verbose_name='去年商业险保单')
+	car_owner_national_id_top = models.ImageField(upload_to='insure/national_id', null=True, blank=True, verbose_name='车主身份证（正面）')
+	car_owner_national_id_down = models.ImageField(upload_to='insure/national_id', null=True, blank=True, verbose_name='车主身份证（反面）')
+	driver_license_top = models.ImageField(upload_to='insure/driver_license', null=True, blank=True, verbose_name='行驶证正本')
+	driver_license_down_top = models.ImageField(upload_to='insure/driver_license', null=True, blank=True, verbose_name='行驶证副本（正面）')
+	driver_license_down_down = models.ImageField(upload_to='insure/driver_license', null=True, blank=True, verbose_name='行驶证副本（反面）')
+	insured_national_id_top = models.ImageField(upload_to='insure/national_id', null=True, blank=True, verbose_name='被保险人身份证（正面）')
+	insured_national_id_down = models.ImageField(upload_to='insure/national_id', null=True, blank=True, verbose_name='被保险人身份证（反面）')
+	last_year_enforced_insurance = models.ImageField(upload_to='insure/insurance', null=True, blank=True, verbose_name='去年交强险保单')
+	last_year_commercial_insurance = models.ImageField(upload_to='insure/insurance', null=True, blank=True, verbose_name='去年商业险保单')
 
 	# Details
+	contact_phone = models.TextField(null=True, blank=True, verbose_name='联系电话')
 	jidongchedisanzerenbaoxian = models.BooleanField(default=False, verbose_name='机动车第三者责任保险')
 	jidongchecheshangrenyuanzerenbaoxian = models.BooleanField(default=False, verbose_name='机动车车上人员责任保险（司机）')
 	jidongchecheshangrenyuanzerenbaoxianchengke = models.BooleanField(default=False, verbose_name='机动车车上人员责任保险（乘客）')
