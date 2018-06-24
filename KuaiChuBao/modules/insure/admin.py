@@ -60,10 +60,8 @@ class InsureInfoAdmin(admin.ModelAdmin):
 		('Step', {'fields': ('step',)}),
 	)
 	readonly_fields = ('created', 'car_owner_national_id_top_tag', 'car_owner_national_id_down_tag',
-	                   'driver_license_down_top',
-	                   'driver_license_down_top_tag',
-	                   'driver_license_down_down',
-	                   'driver_license_down_down_tag', 'insured_national_id_top_tag', 'insured_national_id_down_tag',
+	                   'driver_license_top_tag', 'driver_license_down_top_tag', 'driver_license_down_down_tag',
+	                   'insured_national_id_top_tag', 'insured_national_id_down_tag',
 	                   'last_year_enforced_insurance_tag', 'last_year_commercial_insurance_tag')
 
 	def car_owner_national_id_top_tag(self, obj):
